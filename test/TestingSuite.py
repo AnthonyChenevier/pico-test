@@ -5,6 +5,8 @@ class PicoTestBase:
 
 class TestingSuite:
     TEST_DIR = 'test'
+    LIB_DIRECTORY = 'firmware'
+
     def __init__(self):
         self.tests_passed = 0
         self.test_count = 0
@@ -46,6 +48,7 @@ class TestingSuite:
         """
         # Add the parent directory (which contains the 'lib' directory) to the system path
         sys.path.insert(0, '..')
+        sys.path.insert(0, f'../{self.LIB_DIRECTORY}')
 
         test_modules = []
         test_subclasses = []

@@ -1,6 +1,6 @@
 from machine import Pin
 from TestingSuite import PicoTestBase
-from lib.thing import Thing
+from lib.components.thing import Thing
 
 class ToggleTest(PicoTestBase):
     def test_toggle(self):
