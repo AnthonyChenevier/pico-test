@@ -1,8 +1,10 @@
 import os
+import sys
 class PicoTestBase:
     is_test_class = True
 
 class TestingSuite:
+    TEST_DIR = 'test'
     def __init__(self):
         self.tests_passed = 0
         self.test_count = 0
@@ -14,18 +16,14 @@ class TestingSuite:
         return methods
         
     def run_all(self):
+
         subs = self.find_test_subclasses()
         if len(subs) == 0:
             print("No tests found")
             return
         
         for obj in subs:
-            inst = obj()
-            for m in self.get_test_methods(inst):
-                method = getattr(inst, m)
-                method()
-                self.tests_passed += 1
-                print(f"Tests passed: {self.tests_passed}")
+            self.run_test_class(obj)
 
         if self.test_count == 0:
             print("No tests found")
@@ -33,10 +31,22 @@ class TestingSuite:
             print("All tests passed") 
 
 
+    def run_test_class(self, obj):
+        inst = obj()
+        for m in self.get_test_methods(inst):
+            method = getattr(inst, m)
+            method()
+            self.tests_passed += 1
+            print(f"Tests passed: {self.tests_passed}")
+
+
     def find_test_subclasses(self):
         """
         Finds all classes that inherit from the given base class name across the project.
         """
+        # Add the parent directory (which contains the 'lib' directory) to the system path
+        sys.path.insert(0, '..')
+
         test_modules = []
         test_subclasses = []
         
